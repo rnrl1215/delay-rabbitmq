@@ -1,6 +1,7 @@
 package com.example.rabbitmq.config;
 
 import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.CustomExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class DelayRabbitMQConfiguration implements MessageQueueConfiguration{
+public class DelayRabbitMQConfigurationImpl implements MessageQueueConfiguration{
 
     @Value("${rabbitmq.delay.host}")
     private String host;
@@ -66,7 +67,7 @@ public class DelayRabbitMQConfiguration implements MessageQueueConfiguration{
     @Bean
     @Override
     public Binding binding(Queue queue, CustomExchange customExchange) {
-        return null;
+        return BindingBuilder.bind(queue).to(customExchange).with("*").noargs();
     }
 
     @Bean

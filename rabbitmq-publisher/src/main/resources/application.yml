@@ -4,5 +4,6 @@ rabbitmq:
     port: 5672
     exchange-name: delayed.message
     queue-name: message
+    routing-key : '*'
     username: guest
     password: guest

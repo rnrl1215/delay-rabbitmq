@@ -1,12 +1,12 @@
 package com.example.rabbitmq.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
+@Slf4j
 @Service
 public class DelayRabbitMQService {
 
@@ -16,14 +16,14 @@ public class DelayRabbitMQService {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    @Value("${rabbitmq.delay.queue-name}")
-    private String queueName;
+    @Value("${rabbitmq.delay.routing-key}")
+    private String routingKey;
 
     @Value("${rabbitmq.delay.exchange-name}")
     private String exchangeName;
 
     public void publishMessageWithDelayTime(String message, Long delayTime) {
-        rabbitTemplate.convertAndSend(exchangeName, queueName, message, m->{
+        rabbitTemplate.convertAndSend(exchangeName, routingKey, message, m->{
             m.getMessageProperties().setHeader("x-delay", delayTime);
             return m;
         });
