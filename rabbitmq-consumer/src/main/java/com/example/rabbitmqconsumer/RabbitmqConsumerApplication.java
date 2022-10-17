@@ -25,8 +25,15 @@ public class RabbitmqConsumerApplication {
         channel.queueBind("message","delayed.message","*");
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
-            System.out.println(" [x] Received '" + message + "'");
+
+            // 처리가 제대로 안될때 ack 를 보내지 않는다.
+            try {
+                String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
+                Thread.sleep(1000000L);
+                System.out.println(" [x] Received '" + message + "'");
+            } catch (Exception e) {
+                channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+            }
         };
         channel.basicConsume("message",true, deliverCallback, consumerTag -> { });
 

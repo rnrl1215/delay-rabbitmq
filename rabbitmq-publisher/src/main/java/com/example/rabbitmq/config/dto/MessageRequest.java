@@ -1,4 +1,4 @@
-package com.example.rabbitmq.dto;
+package com.example.rabbitmq.config.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;

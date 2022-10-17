@@ -1,6 +1,6 @@
 package com.example.rabbitmq.api;
 
-import com.example.rabbitmq.dto.MessageRequest;
+import com.example.rabbitmq.config.dto.MessageRequest;
 import com.example.rabbitmq.service.DelayRabbitMQService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +20,7 @@ public class MessageQueueAPI {
 
     @PostMapping("/publish")
     public ResponseEntity publishMessage(@RequestBody MessageRequest messageRequest) {
+
         delayRabbitMQService.publishMessageWithDelayTime(messageRequest.getMessage(),1L);
 
         return new ResponseEntity("Publish your message", HttpStatus.OK);
